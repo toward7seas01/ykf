@@ -6,6 +6,7 @@ gem 'rails', '3.0.5'
 gem 'mysql2'
 gem 'paperclip'
 gem 'jquery-rails', '>= 0.2.7'
+gem 'inherited_resources'
 
 group :development, :test do
   gem "rspec-rails", '~> 2.5.0'

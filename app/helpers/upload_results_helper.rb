@@ -1,0 +1,2 @@
+module UploadResultsHelper
+end
