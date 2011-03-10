@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110309072642) do
+ActiveRecord::Schema.define(:version => 20110310013839) do
 
   create_table "upload_results", :force => true do |t|
     t.string   "kind"
@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(:version => 20110309072642) do
     t.string   "body_file_name"
     t.string   "body_content_type"
     t.integer  "body_file_size"
-    t.integer  "total_size"
-    t.integer  "error_size"
+    t.integer  "total_size",        :default => 0
+    t.integer  "error_size",        :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
