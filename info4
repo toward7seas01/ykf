@@ -1,0 +1,15 @@
+upload result
+
+1 是否回滚记录
+  1 save 正常工作
+  2 patient
+    doctor
+    先创建patient，再创建doctor，一旦doctor创建不成功，则所属patient也撤销
+
+2 error_report_path 是否被正常创建
+
+3 上传的文件不是标准的excel
+  可测试的：
+    1 total_size == 0
+    2 error_size == 0
+    3 error_report_path "文件格式错误"

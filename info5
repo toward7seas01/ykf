@@ -1,0 +1,86 @@
+0 在测试之前
+  你需要先运行metric，进行代码检查，你需要有这样的理念，一个方法不要超过30行，一个类不要超过300行（个人标准是超过5行就要考虑了），要面向对象，设计模式中你最少要满足mvc模式。如果你做不到这些，那么，1，你写好的测试代码会随着以后的重构被废弃；2，你的测试不会太好写
+  顺便说一下，private，protected的方法是否要测试，网上争论不断。作为使用ruby的程序员，我想只要有必要，就测试。
+
+1 你要先熟悉的工具
+  1 rspec
+  2 cucumber
+  3 capybara
+  4 factory-girl
+  5 database-cleaner
+  6 rr
+  7 rails3(因为有些测试工具已经步入rails3)
+
+2 BDD? TDD?
+  网上有很多文章，但是，老实说，我觉得每个人都有自己的理解
+
+  I’m in danger of disappearing into a huge rant here, but here’s the
+important part: names like Test-Driven Development tended to lead
+people to the conclusion that the TDD process was mainly about verifying
+existing behavior. This led to a lot of frankly irritating online debates
+with people talking past each other because of different interpretations
+of what testing meant in test-driven. The term Behavior-Driven Development
+was coined to help win those arguments. Well, an argument
+like that can’t really be won, but it was coined to help clarify the terms.
+Where the word test implies verifying already written code, the terms
+like behavior and specify imply describing the workings of code that has
+yet to be written. Ideally, then, discussing your process in BDD terms
+makes you more aware of the reason why you are using the process in
+the first place.
+  你也许可以从rspec的新官网中得到关于bdd和tdd区别的灵感
+  
+  至少，BDD是TDD的一个扩展，如果你以前没有深入写过测试，那么先从：
+  1 设计
+  2 写测试
+  3 写代码
+  4 运行测试，修复，再运行直至通过
+  5 重构测试代码
+  这个简单的流程开始吧
+
+  
+
+3 如何学习rspec，cucumber
+  rspec1 时代 没有什么比两者在github的wiki上更好的学习资料了，即使是the rspec book也不行
+  rspec2 时代 速成？找官网
+
+  如果想从rspec1升级到rspec2，查看rspec 2.5之前的代码仓库的Upgrade.markdown，或者是rspec各组件的wiki中提到的update文件
+
+4 mock and stub
+  This difference is actually two separate differences. On the one hand there is a difference in how test results are verified: a distinction between state verification and behavior verification. On the other hand is a whole different philosophy to the way testing and design play together, which I term here as the classical and mockist styles of Test Driven Development.
+
+  目前比较流行的有mock/stub框架有 mocha，rr，flexmock和rspec自带的框架，我推荐在简单的项目中使用rr
+
+  特点：
+
+  语法简单易懂，可以doubling any instance of a class，具有method chains
+  
+  mock(project).method(1) { value }
+  mock.instance_of(Project).save(false)
+  stub(project).leader.stub!.address.stub!.city { "Chicago" }
+
+  相对与其他框架所特有的
+
+  mock.proxy replaces the method on the object with an expectation, implementation, and also invokes the actual method. mock.proxy also intercepts the return value and passes it into the return value block.
+
+The following example makes sets an expectation that view.render({:partial => "right_navigation"}) gets called once and return the actual content of the rendered partial template. A call to view.render({:partial => "user_info"}) will render the user_info partial template and send the content into the block and is represented by the html variable. An assertion is done on the html and "Different html" is returned.
+
+  view = controller.template
+  mock.proxy(view).render(:partial => "right_navigation")
+  mock.proxy(view).render(:partial => "user_info") do |html|
+    html.should include("John Doe")
+    "Different html"
+  end
+
+  用mock可以做的
+
+  1 在测试环境下难以创建的对象或者不能使用的方法，可以mock，比如银行的支付接口
+  2 生成异常或者负面情况，在你想看看你的方法是否可以接受不符合约定的参数或者某个依赖的方法异常时你的方法是否健壮
+  3 你想测试一个对象，这个对象还依赖于其他对象，你想在测试中降低耦合性
+    比如：你在做controller中某个action测试，而这个action需要对某个model进行操作，而你不想依赖这个model（1，这个model的
+还没实现；2 虽然你完成了这个model的代码还写了测试，但是如果这个model出错了呢？）
+  
+  用mock要注意的
+
+  1 一个测试方法中不要有太多mock
+  2 mock毕竟是模拟。A potentially larger problem is the type mismatch issue between
+the real method and values being used for mocks. blablabla
