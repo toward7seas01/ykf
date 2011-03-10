@@ -7,6 +7,10 @@ describe UploadResult do
     @upload = Upload.new(@upload_result)
   end
 
+  it '00' do
+    File.directory?("#{Rails.root}/public/data").should be_true
+  end
+
   it '01' do
     mock(Spreadsheet).open(anything).stub!.worksheets {[[["cool", "123456", "y"], ["cool", "123456", "done"]]]}
     @upload_result.save!
@@ -21,7 +25,7 @@ describe UploadResult do
     mock(Spreadsheet).open(anything).stub!.worksheets {[[["cool", "123456", "y"], ["cool", "123456", "done"]]]}
     @upload_result.save!
 
-    @upload_result.error_report_path.should_not be_blank
+    @upload_result.error_report_path.should =~ /public/
   end
 
 end

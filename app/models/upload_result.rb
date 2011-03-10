@@ -22,8 +22,13 @@ class UploadResult < ActiveRecord::Base
       end
     end
 
-    unless result == :success
-      self.error_report_path = result
+    self.error_report_path = case result
+    when :success
+      "成功导入"
+    when :error_file_type
+      "错误文件格式"
+    else
+      result
     end
   end
 
