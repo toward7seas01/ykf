@@ -28,4 +28,11 @@ describe UploadResult do
     @upload_result.error_report_path.should =~ /public/
   end
 
+  it '03' do
+    @upload_result.save!
+
+    @upload_result.total_size.should == 5
+    @upload_result.error_report_path.should == "成功导入"
+  end
+
 end
