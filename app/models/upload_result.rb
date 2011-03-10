@@ -7,7 +7,24 @@ class UploadResult < ActiveRecord::Base
 
 
   def create_error_report_path
- 
+    result = nil
+    UploadResult.transaction do
+      upload = Upload.new(self)
+      result = upload.handle do |row|
+        UploadResult.transaction(:requires_new => true) do
+          doctor = Doctor.find_or_create_by_name(row[2])
+          raise if doctor.new_record?
+
+
+          patient = Patient.find_or_create_by_name_and_phone_number_and_doctor_id(row[0], row[1], doctor.id)
+          raise if patient.new_record?
+        end
+      end
+    end
+
+    unless result == :success
+      self.error_report_path = result
+    end
   end
 
 

@@ -23,6 +23,7 @@ describe Upload do
         end
       end
       @upload_result.error_size.should == 2
+      @upload_result.total_size.should == 5
     end
 
     it '04' do

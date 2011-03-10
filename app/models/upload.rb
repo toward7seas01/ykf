@@ -12,10 +12,11 @@ class Upload
         sheet.each do |row|
           begin
             yield(row)
-            resource.total_size += 1
           rescue => e
             @errors[e.message] = row
             resource.error_size += 1
+          ensure
+            resource.total_size += 1
           end
         end
       rescue => e
