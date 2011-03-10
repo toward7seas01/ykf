@@ -8,6 +8,7 @@ gem 'paperclip'
 gem 'jquery-rails', '>= 0.2.7'
 gem 'inherited_resources'
 gem 'spreadsheet'
+gem 'uuid'
 
 group :development, :test do
   gem "rspec-rails", '~> 2.5.0'

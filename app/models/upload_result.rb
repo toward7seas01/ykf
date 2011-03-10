@@ -5,10 +5,9 @@ class UploadResult < ActiveRecord::Base
 
   before_create :create_error_report_path
 
-  attr_accessor :upload
-
 
   def create_error_report_path
+ 
   end
 
 

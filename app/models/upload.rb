@@ -1,7 +1,7 @@
 class Upload
   def initialize(resource)
     @resource = resource
-    
+    @errors = ActiveSupport::OrderedHash.new
   end
 
   attr_accessor :resource
@@ -14,6 +14,7 @@ class Upload
             yield(row)
             resource.total_size += 1
           rescue => e
+            @errors[e.message] = row
             resource.error_size += 1
           end
         end
@@ -21,6 +22,19 @@ class Upload
         resource.error_size += 1
       end
     end
+
+    if @errors.size == 0
+      :success
+    else
+      generate_error_report
+    end
     
+  end
+
+  private
+
+  def generate_error_report
+    report = Report.new([""], @errors)
+    report.write
   end
 end
