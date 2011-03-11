@@ -49,7 +49,7 @@ describe Upload do
     upload_result.error_size.should == 0
 
     Patient.all.should have(0).patient
-    upload_result.error_report_path.should == "错误文件格式"
+    upload_result.error_report_path.should == "error_file_type"
   end
 
 

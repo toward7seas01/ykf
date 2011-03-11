@@ -6,11 +6,13 @@ class UploadResult < ActiveRecord::Base
   before_create :create_error_report_path
 
 
+  private
+
   def create_error_report_path
-    result = nil
+    upload = Upload.new(self)
+
     UploadResult.transaction do
-      upload = Upload.new(self)
-      result = upload.handle do |row|
+      @result = upload.handle do |row|
         UploadResult.transaction(:requires_new => true) do
           doctor = Doctor.find_or_create_by_name(row[2])
           raise if doctor.new_record?
@@ -22,14 +24,7 @@ class UploadResult < ActiveRecord::Base
       end
     end
 
-    self.error_report_path = case result
-    when :success
-      "成功导入"
-    when :error_file_type
-      "错误文件格式"
-    else
-      result
-    end
+    self.error_report_path = @result.to_s
   end
 
 

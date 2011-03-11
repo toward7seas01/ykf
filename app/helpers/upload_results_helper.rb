@@ -1,9 +1,9 @@
 module UploadResultsHelper
-  def error_report_url(upload_result)
-    if upload_result.error_report_path.is_a?(String)
-      upload_result.error_report_path
+  def error_report_link(upload_result)
+    if upload_result.error_report_path =~ /data/
+      link_to "错误报道", "/data/" + File.basename(upload_result.error_report_path)
     else
-      link_to "错误报道", upload_result.error_report_path
+      upload_result.error_report_path
     end
   end
 end

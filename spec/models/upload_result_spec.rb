@@ -32,7 +32,7 @@ describe UploadResult do
     @upload_result.save!
 
     @upload_result.total_size.should == 5
-    @upload_result.error_report_path.should == "成功导入"
+    @upload_result.error_report_path.should == "success"
   end
 
 end
